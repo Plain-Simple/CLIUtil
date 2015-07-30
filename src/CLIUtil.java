@@ -146,14 +146,43 @@ public class CLIUtil {
             whiteSpace.add("");
     }
 
+    /**
+     * Displays a menu with each element of @menuItems on a seperate,
+     * numbered line. Asks the user to choose one of the items,
+     * and loops until the user enters a valid choice.
+     * @param menuItems Strings to number and display as menu items
+     * @return User-chosen menu item as index of @menuItems
+     */
     public static int printMenu(String[] menuItems) {
-        return 1;
+        int choice;
+        for(int i = 0; i < menuItems.length; i++)
+            print((i + 1) + ". " + menuItems[i] + "\n");
+        do {
+            printLn("Enter choice: ");
+            String str_choice = getTextInput();
+            try {
+                choice = Integer.parseInt(str_choice);
+
+                /* Validate choice to make sure it is in the correct range */
+                if(choice > 0 && choice < menuItems.length)
+                    return choice - 1;
+                else
+                    print("Error: Choice must be in the range of 1 to " + menuItems.length + "\n");
+            } catch(NumberFormatException e) {
+                print("Error: Choice must be an integer in the range of 1 to " + menuItems.length + "\n");
+            }
+        } while(true);
     }
 
+    /**
+     * Prints each element of @listItems on a seperate, numbered line.
+     * @param listItems Strings to be listed and numbered
+     */
     public static void printList(String[] listItems) {
-
+        for(int i = 0; i < listItems.length; i++)
+            print((i + 1) + ". " + listItems[i] + "\n");
     }
-
+    
     public static String trimL(String s) {
         return "";
     }
