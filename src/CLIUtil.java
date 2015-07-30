@@ -182,11 +182,25 @@ public class CLIUtil {
         for(int i = 0; i < listItems.length; i++)
             print((i + 1) + ". " + listItems[i] + "\n");
     }
-    
+
+    /**
+     * Removes all leading whitespace from a String
+     * @param s String to be trimmed
+     * @return String with leading whitespace removed
+     */
     public static String trimL(String s) {
-        return "";
+        Pattern non_whiteSpace = Pattern.compile("\\S+");
+        Matcher m = non_whiteSpace.matcher(s);
+
+        /* Find the first instance of non-whitespace and substring
+         * from this point to the end of the String */
+        if(m.find()) {
+            return s.substring(m.start());
+        } else
+            return "";
     }
 
+    
     public static String trimR(String s) {
         return "";
     }
