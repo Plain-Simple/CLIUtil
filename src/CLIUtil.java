@@ -184,7 +184,7 @@ public class CLIUtil {
     }
 
     /**
-     * Removes all leading whitespace from a String
+     * Removes all leading whitespace from a String.
      * @param s String to be trimmed
      * @return String with leading whitespace removed
      */
@@ -200,17 +200,58 @@ public class CLIUtil {
             return "";
     }
 
-    
+    /** Removes all trailing whitespace from a String.
+     * @param s String to be trimmed
+     * @return String with trailing whitespace removed
+     */
     public static String trimR(String s) {
-        return "";
+        Pattern non_whiteSpace = Pattern.compile("\\S+");
+        Matcher m = non_whiteSpace.matcher(s);
+
+        /* Find the last location of non-whitespace and substring up
+         * to that point. */
+        int last_index = 0;
+        while(m.find()) {
+            last_index = m.end() + 1;
+        }
+        if(last_index == s.length())
+            return s;
+        else
+            return s.substring(0, last_index); // todo: check
     }
 
+    /**
+     * Trims all leading and trailing whitespace and ensures that
+     * each non-whitespace token is followed by only one space
+     * @param s String to be trimmed and normalized
+     * @return trimmed and processed String
+     */
     public static String normalizeText(String s) {
-        return "";
+        return s.trim().replaceAll(" +", " ");
     }
 
+    /**
+     * Splits String by whitespace and returns an array containing
+     * non-whitespace tokens. Anything surounded by single- or
+     * double-quotes will be preserved, minus the quotes
+     * (i.e. "file name" will be in the array as "file name",
+     * not as "file" and "name".
+     * @param s String to be split and parsed
+     * @return an array of non-whitespace tokens with all whitespace removed
+     */
     public static String[] parseWords(String s) {
-        return new String[1];
+        ArrayList<String> tokens = new ArrayList<>();
+        Pattern tokenize_pattern = Pattern.compile("([^\\s\"\']+)|\"([^\"]*)\"|\'([^\']*)\'");
+        Matcher m = tokenize_pattern.matcher(s);
+        while(m.find()) {
+            if(m.group(0) != null)
+                tokens.add(m.group(0));
+            else if(m.group(1) != null)
+                tokens.add(m.group(1));
+            else if(m.group(2) != null)
+                tokens.add(m.group(2));
+        }
+        return tokens.toArray(new String[tokens.size()]);
     }
 
     public static String[] parseLines(String s) {
