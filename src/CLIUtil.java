@@ -59,37 +59,34 @@ public class CLIUtil {
         ArrayList<String> word_tokens = new ArrayList<>();
         splitWords(s, white_space, word_tokens);
 
-        /* Add first whitespace token to the first line (splitWords makes each String
-         * start with "whitespace", even if the whitespace is a String of length
-         * zero). If it is longer than columnWidth it must be split onto separate lines. */
-        do {
-            if(white_space.get(0).length() > columnWidth) {
-                /* Add a full line of whitespace. Remaining whitespace is put on next line */
-                lines.add(cloneString(" ", columnWidth) + "\n");
-                white_space.set(0, white_space.get(0).substring(columnWidth));
-            }
-        } while(white_space.get(0).length() > columnWidth);
+        /* Loop breaks first whitespace token into lines of whitespace
+         * if it is longer than columnWidth */
+        while(white_space.get(0).length() > columnWidth) {
+            /* Add a full line of whitespace. Remaining whitespace is put on next line */
+            lines.add(cloneString(" ", columnWidth) + "\n");
+            white_space.set(0, white_space.get(0).substring(columnWidth));
+        }
 
+        /* Add whitespace of length less than columnWidth */
         lines.add(white_space.get(0));
 
         /* Remove first index of white_space, allowing us to look at the rest of the
-         * String as pairs of words followed by whitespace, not the other way around */
+         * String as pairs of a word followed by whitespace, not the other way around */
         white_space.remove(0);
 
         int current_line = lines.size() - 1;
-        System.out.println("current_line = " + current_line);
 
-        /* Loop through word_tokens and white_space. For each pair see if the word */
         for(int i = 0; i < word_tokens.size(); i++) {
             /* Word token is longer than allowed column width - split it across lines */
-            if(word_tokens.get(i).length() > columnWidth) {
-                /* Substring word token to the length of space left in the column
+            while (word_tokens.get(i).length() > columnWidth) {
+                String current_line_copy = lines.get(current_line);
+                /* Substring word token to the length of space left in the line
                  * and add it to the current line */
-                do {
-                    lines.set(current_line, lines.get(current_line) +
-                            word_tokens.get(i).substring(0, columnWidth - lines.get(current_line).length()) + "\n");
-                    word_tokens.set(i, word_tokens.get(i).substring(columnWidth - lines.get(current_line).length()));
-                } while(word_tokens.get(i).length() > columnWidth);
+                lines.set(current_line, lines.get(current_line) +
+                        word_tokens.get(i).substring(0, columnWidth - lines.get(current_line).length()) + "\n");
+                word_tokens.set(i, word_tokens.get(i).substring(columnWidth - current_line_copy.length()));
+                lines.add("");
+                current_line++;
             }
 
             /* If word fits on this line, add it. If not, start a new line and add it */
@@ -116,7 +113,7 @@ public class CLIUtil {
         for(int i = 0; i < lines.size(); i++)
             result += lines.get(i);
 
-        printLn("\n" + result);
+        printLn(result);
     }
 
     /**
