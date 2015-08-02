@@ -7,23 +7,20 @@ import java.util.regex.Pattern;
  * A java library offering various functions for use in CLI-based applications
  * Functions include input/output, formatting, String manipulation and parsing,
  * and trim functions.
+ *
+ * Contributor(s): Stefan Kussmaul, Plain+Simple 2015
  */
 public class CLIUtil {
 
     /**
      * Reads in all user-inputted text and returns it as a single String.
-     * Text can be longer than a single word or line.
+     * Text can be longer than a single word, but cannot be longer than a line.
+     * Note: returned String does not end in an endline character
      * @return user-inputted text, or empty String if user did not enter anything
      */
     public static String getTextInput() {
         Scanner scanner = new Scanner(System.in);
-        String input = "";
-
-        /* Concatenate next token with input while more tokens exist */
-        while(scanner.hasNext())
-            System.out.println("Next: " + scanner.next());
-        input += scanner.next(); // todo: runs forever
-        return input;
+        return scanner.nextLine();
     }
 
     /**
@@ -125,7 +122,7 @@ public class CLIUtil {
      * @param whiteSpace ArrayList containing whiteSpace tokens
      * @param wordTokens ArrayList containing word tokens
      */
-    private static void splitWords(String s, ArrayList<String> whiteSpace, ArrayList<String> wordTokens) {
+    public static void splitWords(String s, ArrayList<String> whiteSpace, ArrayList<String> wordTokens) {
         int last_index = 0;
 
         Pattern find_words = Pattern.compile("\\S+");
@@ -135,7 +132,7 @@ public class CLIUtil {
         while(matcher.find()) {
             wordTokens.add(matcher.group());
             whiteSpace.add(s.substring(last_index, matcher.start()));
-            last_index = matcher.end() + 1;
+            last_index = matcher.end();
         }
 
         /* Grab any remaining non-whitespace text. If there is none, add a String
@@ -208,16 +205,17 @@ public class CLIUtil {
         Pattern non_whiteSpace = Pattern.compile("\\S+");
         Matcher m = non_whiteSpace.matcher(s);
 
-        /* Find the last location of non-whitespace and substring up
-         * to that point. */
+        /* Find the last location of non-whitespace */
         int last_index = 0;
         while(m.find()) {
-            last_index = m.end() + 1;
+            last_index = m.end();
         }
+
+        /* No trailing whitespace */
         if(last_index == s.length())
             return s;
-        else
-            return s.substring(0, last_index); // todo: check
+        else /* Substring only until last index of non-whitespace */
+            return s.substring(0, last_index);
     }
 
     /**
@@ -241,8 +239,8 @@ public class CLIUtil {
      */
     public static String[] parseWords(String s) {
         ArrayList<String> tokens = new ArrayList<>();
-        Pattern tokenize_pattern = Pattern.compile("([^\\s\"\']+)|\"([^\"]*)\"|\'([^\']*)\'");
-        Matcher m = tokenize_pattern.matcher(s);
+        Pattern tokenize = Pattern.compile("([^\\s\"\']+)|\"([^\"]*)\"|\'([^\']*)\'");
+        Matcher m = tokenize.matcher(s);
         while(m.find()) {
             if(m.group(0) != null)
                 tokens.add(m.group(0));
@@ -254,7 +252,19 @@ public class CLIUtil {
         return tokens.toArray(new String[tokens.size()]);
     }
 
+    /**
+     * Splits String by endline characters and returns an array
+     * containing each line as an individual element. Note:
+     * empty lines are stored as empty Strings.
+     * @param s String to be split into lines
+     * @return array containing the split lines
+     */
     public static String[] parseLines(String s) {
-        return new String[4];
+        ArrayList<String> lines = new ArrayList<>();
+        Pattern split_lines = Pattern.compile("[^\\n|\\r]+");
+        Matcher m = split_lines.matcher(s);
+        while(m.find())
+            lines.add(m.group());
+        return new String[1];
     }
 }
