@@ -52,6 +52,7 @@ public class CLIUtil {
     public final static void printFrmt(String s, int columnWidth) {
         /* Remove linebreaks from s (it will be reformatted with linebreaks) */
         s = s.replace("\\n|\\r", "");
+        s = s.replace("\t", "     ");
 
         ArrayList<String> lines = new ArrayList<>();
         ArrayList<String> white_space = new ArrayList<>();
@@ -59,17 +60,17 @@ public class CLIUtil {
         splitWords(s, white_space, word_tokens);
 
         /* Add first whitespace token to the first line (splitWords makes each String
-         * start with "whitespace", even if it is the whitespace is a String of length
+         * start with "whitespace", even if the whitespace is a String of length
          * zero). If it is longer than columnWidth it must be split onto separate lines. */
         do {
-            if(white_space.get(0).length() > columnWidth) { // todo: will this result in a column one longer than wanted? Does it matter?
-                lines.add(white_space.get(0).substring(0, columnWidth) + "\n");
+            if(white_space.get(0).length() > columnWidth) {
+                /* Add a full line of whitespace. Remaining whitespace is put on next line */
+                lines.add(cloneString(" ", columnWidth) + "\n");
                 white_space.set(0, white_space.get(0).substring(columnWidth));
-            } else {
-                lines.add(white_space.get(0));
             }
         } while(white_space.get(0).length() > columnWidth);
 
+        lines.add(white_space.get(0));
 
         /* Remove first index of white_space, allowing us to look at the rest of the
          * String as pairs of words followed by whitespace, not the other way around */
@@ -93,9 +94,7 @@ public class CLIUtil {
 
             /* If word fits on this line, add it. If not, start a new line and add it */
             if(lines.get(current_line).length() + word_tokens.get(i).length() <= columnWidth) {
-                System.out.println(word_tokens.get(i) + " fits on line " + current_line);
                 lines.set(current_line, lines.get(current_line) + word_tokens.get(i));
-                System.out.println(lines.get(current_line));
             } else {
                 lines.set(current_line, lines.get(current_line) + "\n");
                 lines.add(word_tokens.get(i));
@@ -180,7 +179,7 @@ public class CLIUtil {
     }
 
     /**
-     * Prints each element of @listItems on a seperate, numbered line.
+     * Prints each element of listItems on a separate, numbered line.
      * @param listItems Strings to be listed and numbered
      */
     public final static void printList(String[] listItems) {
@@ -204,7 +203,7 @@ public class CLIUtil {
             return "";
 
         String result = "";
-        for(int i = 0; i < n; n++)
+        for(int i = 0; i < n; i++)
             result += toClone;
         return result;
     }
@@ -279,7 +278,7 @@ public class CLIUtil {
                 tokens.add(m.group(3));
             }
         }
-        
+
         return tokens.toArray(new String[tokens.size()]);
     }
 }
