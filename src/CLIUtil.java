@@ -18,7 +18,7 @@ public class CLIUtil {
      * Note: returned String does not end in an endline character
      * @return user-inputted text, or empty String if user did not enter anything
      */
-    public static String getTextInput() {
+    public final static String getTextInput() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
@@ -27,7 +27,7 @@ public class CLIUtil {
      * Uses System to print specified String.
      * @param s String to print
      */
-    public static void print(String s) {
+    public final static void print(String s) {
         System.out.print(s);
     }
 
@@ -35,7 +35,7 @@ public class CLIUtil {
      * Uses System to print a newline followed by the specified String.
      * @param s String to print after newline
      */
-    public static void printLn(String s) {
+    public final static void printLn(String s) {
         System.out.println(s);
     }
 
@@ -49,7 +49,7 @@ public class CLIUtil {
      * @param s String to be printed
      * @param columnWidth max width of a line of text
      */
-    public static void printFrmt(String s, int columnWidth) {
+    public final static void printFrmt(String s, int columnWidth) {
         /* Remove linebreaks from s (it will be reformatted with linebreaks) */
         s = s.replace("\\n|\\r", "");
 
@@ -130,7 +130,7 @@ public class CLIUtil {
      * @param whiteSpace ArrayList containing whiteSpace tokens
      * @param wordTokens ArrayList containing word tokens
      */
-    public static void splitWords(String s, ArrayList<String> whiteSpace, ArrayList<String> wordTokens) {
+    public final static void splitWords(String s, ArrayList<String> whiteSpace, ArrayList<String> wordTokens) {
         int last_index = 0;
 
         Pattern find_words = Pattern.compile("\\S+");
@@ -158,7 +158,7 @@ public class CLIUtil {
      * @param menuItems Strings to number and display as menu items
      * @return User-chosen menu item as index of @menuItems
      */
-    public static int printMenu(String[] menuItems) {
+    public final static int printMenu(String[] menuItems) {
         int choice;
         for(int i = 0; i < menuItems.length; i++)
             print((i + 1) + ". " + menuItems[i] + "\n");
@@ -183,7 +183,7 @@ public class CLIUtil {
      * Prints each element of @listItems on a seperate, numbered line.
      * @param listItems Strings to be listed and numbered
      */
-    public static void printList(String[] listItems) {
+    public final static void printList(String[] listItems) {
         for(int i = 0; i < listItems.length; i++)
             print((i + 1) + ". " + listItems[i] + "\n");
     }
@@ -197,7 +197,7 @@ public class CLIUtil {
      * @param n number of times for @toClone to be repeated
      * @return String composed of @toClone repeated @n times
      */
-    public static String cloneString(String toClone, int n) {
+    public final static String cloneString(String toClone, int n) {
         if(toClone == null || (Integer) n == null)
             return null;
         else if(toClone.equals("") || n <= 0)
@@ -208,13 +208,13 @@ public class CLIUtil {
             result += toClone;
         return result;
     }
-    
+
     /**
      * Removes all leading whitespace from a String.
      * @param s String to be trimmed
      * @return String with leading whitespace removed
      */
-    public static String trimL(String s) {
+    public final static String trimL(String s) {
         Pattern non_whiteSpace = Pattern.compile("\\S+");
         Matcher m = non_whiteSpace.matcher(s);
 
@@ -230,7 +230,7 @@ public class CLIUtil {
      * @param s String to be trimmed
      * @return String with trailing whitespace removed
      */
-    public static String trimR(String s) {
+    public final static String trimR(String s) {
         Pattern non_whiteSpace = Pattern.compile("\\S+");
         Matcher m = non_whiteSpace.matcher(s);
 
@@ -253,7 +253,7 @@ public class CLIUtil {
      * @param s String to be trimmed and normalized
      * @return trimmed and processed String
      */
-    public static String normalizeText(String s) {
+    public final static String normalizeText(String s) {
         return s.trim().replaceAll(" +", " ");
     }
 
@@ -266,7 +266,7 @@ public class CLIUtil {
      * @param s String to be split and parsed
      * @return an array of non-whitespace tokens with all whitespace removed
      */
-    public static String[] parseWords(String s) {
+    public final static String[] parseWords(String s) {
         ArrayList<String> tokens = new ArrayList<>();
         Pattern tokenize = Pattern.compile("([^\\s\"\']+)|\"([^\"]*)\"|\'([^\']*)\'");
         Matcher m = tokenize.matcher(s);
@@ -288,7 +288,7 @@ public class CLIUtil {
      * @param s String to be split into lines
      * @return array containing the split lines
      */
-    public static String[] parseLines(String s) {
+    public final static String[] parseLines(String s) {
         ArrayList<String> lines = new ArrayList<>();
         Pattern split_lines = Pattern.compile("[^\\n|\\r]+");
         Matcher m = split_lines.matcher(s);
