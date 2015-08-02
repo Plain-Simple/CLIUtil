@@ -271,29 +271,15 @@ public class CLIUtil {
         Pattern tokenize = Pattern.compile("([^\\s\"\']+)|\"([^\"]*)\"|\'([^\']*)\'");
         Matcher m = tokenize.matcher(s);
         while(m.find()) {
-            if(m.group(0) != null)
-                tokens.add(m.group(0));
-            else if(m.group(1) != null)
+            if(m.group(1) != null) {
                 tokens.add(m.group(1));
-            else if(m.group(2) != null)
+            } else if(m.group(2) != null) {
                 tokens.add(m.group(2));
+            } else if(m.group(3) != null) {
+                tokens.add(m.group(3));
+            }
         }
+        
         return tokens.toArray(new String[tokens.size()]);
-    }
-
-    /**
-     * Splits String by endline characters and returns an array
-     * containing each line as an individual element. Note:
-     * empty lines are stored as empty Strings.
-     * @param s String to be split into lines
-     * @return array containing the split lines
-     */
-    public final static String[] parseLines(String s) {
-        ArrayList<String> lines = new ArrayList<>();
-        Pattern split_lines = Pattern.compile("[^\\n|\\r]+");
-        Matcher m = split_lines.matcher(s);
-        while(m.find())
-            lines.add(m.group());
-        return new String[1];
     }
 }
