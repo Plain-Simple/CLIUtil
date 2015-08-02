@@ -189,6 +189,27 @@ public class CLIUtil {
     }
 
     /**
+     * Generates a String by concatenating toClone with itself
+     * n times. If either parameter is null, the function returns
+     * null. If toClone equals "" or n is equal to or less than 0,
+     * an empty String is returned.
+     * @param toClone String to be "cloned"
+     * @param n number of times for @toClone to be repeated
+     * @return String composed of @toClone repeated @n times
+     */
+    public static String cloneString(String toClone, int n) {
+        if(toClone == null || (Integer) n == null)
+            return null;
+        else if(toClone.equals("") || n <= 0)
+            return "";
+
+        String result = "";
+        for(int i = 0; i < n; n++)
+            result += toClone;
+        return result;
+    }
+    
+    /**
      * Removes all leading whitespace from a String.
      * @param s String to be trimmed
      * @return String with leading whitespace removed
