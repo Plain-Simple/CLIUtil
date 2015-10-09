@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,32 +11,6 @@ import java.util.regex.Pattern;
  */
 public class TextOutput {
 
-    /**
-     * Reads in all user-inputted text and returns it as a single String.
-     * Text can be longer than a single word, but cannot be longer than a line.
-     * Note: returned String does not end in an endline character
-     * @return user-inputted text, or empty String if user did not enter anything
-     */
-    public final static String getTextInput() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
-    /**
-     * Uses System to print specified String.
-     * @param s String to print
-     */
-    public final static void print(String s) {
-        System.out.print(s);
-    }
-
-    /**
-     * Uses System to print a newline followed by the specified String.
-     * @param s String to print after newline
-     */
-    public final static void printLn(String s) {
-        System.out.println(s);
-    }
 
     /**
      * Uses System to print specified String, but limits the length
@@ -46,6 +19,7 @@ public class TextOutput {
      * This function assumes it is printing text and will not split a word
      * over a line unless the length of the word is longer than the column
      * width.
+     * 
      * @param s String to be printed
      * @param columnWidth max width of a line of text
      */
@@ -113,7 +87,7 @@ public class TextOutput {
         for(int i = 0; i < lines.size(); i++)
             result += lines.get(i);
 
-        printLn(result);
+        System.out.print(result);
     }
 
     /**
@@ -122,11 +96,12 @@ public class TextOutput {
      * even if the whitespace is a String of length zero. This means that, with
      * the exception of the first element of whitespace, each word is followed
      * by whitespace.
+     *
      * @param s String to split
      * @param whiteSpace ArrayList containing whiteSpace tokens
      * @param wordTokens ArrayList containing word tokens
      */
-    public final static void splitWords(String s, ArrayList<String> whiteSpace, ArrayList<String> wordTokens) {
+    private final static void splitWords(String s, ArrayList<String> whiteSpace, ArrayList<String> wordTokens) {
         int last_index = 0;
 
         Pattern find_words = Pattern.compile("\\S+");
@@ -147,53 +122,19 @@ public class TextOutput {
             whiteSpace.add("");
     }
 
-    /**
-     * Displays a menu with each element of @menuItems on a seperate,
-     * numbered line. Asks the user to choose one of the items,
-     * and loops until the user enters a valid choice.
-     * @param menuItems Strings to number and display as menu items
-     * @return User-chosen menu item as index of @menuItems
-     */
-    public final static int printMenu(String[] menuItems) {
-        int choice;
-        for(int i = 0; i < menuItems.length; i++)
-            print((i + 1) + ". " + menuItems[i] + "\n");
-        do {
-            printLn("Enter choice: ");
-            String str_choice = getTextInput();
-            try {
-                choice = Integer.parseInt(str_choice);
 
-                /* Validate choice to make sure it is in the correct range */
-                if(choice > 0 && choice < menuItems.length)
-                    return choice - 1;
-                else
-                    print("Error: Choice must be in the range of 1 to " + menuItems.length + "\n");
-            } catch(NumberFormatException e) {
-                print("Error: Choice must be an integer in the range of 1 to " + menuItems.length + "\n");
-            }
-        } while(true);
-    }
-
-    /**
-     * Prints each element of listItems on a separate, numbered line.
-     * @param listItems Strings to be listed and numbered
-     */
-    public final static void printList(String[] listItems) {
-        for(int i = 0; i < listItems.length; i++)
-            print((i + 1) + ". " + listItems[i] + "\n");
-    }
 
     /**
      * Generates a String by concatenating toClone with itself
      * n times. If either parameter is null, the function returns
      * null. If toClone equals "" or n is equal to or less than 0,
      * an empty String is returned.
+     *
      * @param toClone String to be "cloned"
      * @param n number of times for @toClone to be repeated
      * @return String composed of @toClone repeated @n times
      */
-    public final static String cloneString(String toClone, int n) {
+    private final static String cloneString(String toClone, int n) {
         if(toClone == null || (Integer) n == null)
             return null;
         else if(toClone.equals("") || n <= 0)
@@ -203,79 +144,5 @@ public class TextOutput {
         for(int i = 0; i < n; i++)
             result += toClone;
         return result;
-    }
-
-    /**
-     * Removes all leading whitespace from a String.
-     * @param s String to be trimmed
-     * @return String with leading whitespace removed
-     */
-    public final static String trimL(String s) {
-        Pattern non_whiteSpace = Pattern.compile("\\S+");
-        Matcher m = non_whiteSpace.matcher(s);
-
-        /* Find the first instance of non-whitespace and substring
-         * from this point to the end of the String */
-        if(m.find()) {
-            return s.substring(m.start());
-        } else
-            return "";
-    }
-
-    /** Removes all trailing whitespace from a String.
-     * @param s String to be trimmed
-     * @return String with trailing whitespace removed
-     */
-    public final static String trimR(String s) {
-        Pattern non_whiteSpace = Pattern.compile("\\S+");
-        Matcher m = non_whiteSpace.matcher(s);
-
-        /* Find the last location of non-whitespace */
-        int last_index = 0;
-        while(m.find()) {
-            last_index = m.end();
-        }
-
-        /* No trailing whitespace */
-        if(last_index == s.length())
-            return s;
-        else /* Substring only until last index of non-whitespace */
-            return s.substring(0, last_index);
-    }
-
-    /**
-     * Trims all leading and trailing whitespace and ensures that
-     * each non-whitespace token is followed by only one space
-     * @param s String to be trimmed and normalized
-     * @return trimmed and processed String
-     */
-    public final static String normalizeText(String s) {
-        return s.trim().replaceAll(" +", " ");
-    }
-
-    /**
-     * Splits String by whitespace and returns an array containing
-     * non-whitespace tokens. Anything surounded by single- or
-     * double-quotes will be preserved, minus the quotes
-     * (i.e. "file name" will be in the array as "file name",
-     * not as "file" and "name".
-     * @param s String to be split and parsed
-     * @return an array of non-whitespace tokens with all whitespace removed
-     */
-    public final static String[] parseWords(String s) {
-        ArrayList<String> tokens = new ArrayList<>();
-        Pattern tokenize = Pattern.compile("([^\\s\"\']+)|\"([^\"]*)\"|\'([^\']*)\'");
-        Matcher m = tokenize.matcher(s);
-        while(m.find()) {
-            if(m.group(1) != null) {
-                tokens.add(m.group(1));
-            } else if(m.group(2) != null) {
-                tokens.add(m.group(2));
-            } else if(m.group(3) != null) {
-                tokens.add(m.group(3));
-            }
-        }
-
-        return tokens.toArray(new String[tokens.size()]);
     }
 }
