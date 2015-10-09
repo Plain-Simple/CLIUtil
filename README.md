@@ -1,2 +1,2 @@
-# CLIUtil
-A java library offering various functions for use in CLI-based applications
+# TextOutput
+A java library for printing text to console in CLI-based applications.
