@@ -18,18 +18,18 @@ public class TextFormat {
      * over a line unless the length of the word is longer than the column
      * width.
      *
-     * @param s String to be printed
+     * @param text String to be printed
      * @param columnWidth max width of a line of text
      */
-    public final static String formatWidth(String s, int columnWidth) {
+    public final static String formatWidth(String text, int columnWidth) { // todo: is this just leftJustify()?
         /* Remove linebreaks from s (it will be reformatted with linebreaks) */
-        s = s.replace("\\n|\\r", "");
-        s = s.replace("\t", "     ");
+        text = text.replace("\\n|\\r", "");
+        text = text.replace("\t", "     ");
 
         ArrayList<String> lines = new ArrayList<>();
         ArrayList<String> white_space = new ArrayList<>();
         ArrayList<String> word_tokens = new ArrayList<>();
-        splitWords(s, white_space, word_tokens);
+        splitWords(text, white_space, word_tokens);
 
         /* Loop breaks first whitespace token into lines of whitespace
          * if it is longer than columnWidth */
@@ -95,27 +95,27 @@ public class TextFormat {
      * the exception of the first element of whitespace, each word is followed
      * by whitespace.
      *
-     * @param s String to split
+     * @param text String to split
      * @param whiteSpace ArrayList containing whiteSpace tokens
      * @param wordTokens ArrayList containing word tokens
      */
-    private final static void splitWords(String s, ArrayList<String> whiteSpace, ArrayList<String> wordTokens) {
+    private final static void splitWords(String text, ArrayList<String> whiteSpace, ArrayList<String> wordTokens) {
         int last_index = 0;
 
         Pattern find_words = Pattern.compile("\\S+");
-        Matcher matcher = find_words.matcher(s);
+        Matcher matcher = find_words.matcher(text);
 
         /* Grab whitespace tokens in one list and put everything else in another list */
         while(matcher.find()) {
             wordTokens.add(matcher.group());
-            whiteSpace.add(s.substring(last_index, matcher.start()));
+            whiteSpace.add(text.substring(last_index, matcher.start()));
             last_index = matcher.end();
         }
 
         /* Grab any remaining non-whitespace text. If there is none, add a String
          * of length zero to ensure each word is followed by whitespace. */
-        if(last_index <= s.length())
-            whiteSpace.add(s.substring(last_index));
+        if(last_index <= text.length())
+            whiteSpace.add(text.substring(last_index));
         else
             whiteSpace.add("");
     }
@@ -144,6 +144,14 @@ public class TextFormat {
         return result;
     }
 
+    /**
+     * Formats String to specified column width, then centers each // todo: better explanation
+     * line of text in the column.
+     *
+     * @param text String to be center-formatted
+     * @param columnWidth max number of characters per line
+     * @return a String where text of each line is centered in the column
+     */
     public final static String center(String text, int columnWidth) {
         String result = "";
         // apply basic formatting
@@ -157,6 +165,14 @@ public class TextFormat {
     }
     // todo: documentation, parameter names
 
+    /**
+     * Formats String to specified column width, then right-justifies
+     * each line of text in the column.
+     *
+     * @param text String to be right-justified
+     * @param columnWidth max number of characters per line
+     * @return a String where the text of each line has been right-justified // todo: better explanation
+     */
     public final static String rightJustify(String text, int columnWidth) {
         String result = "";
         // apply basic formatting
