@@ -8,12 +8,12 @@ import java.util.regex.Pattern;
  * Licensed under GPL GNU Version 3 (see license.txt)
  * See plain-simple.github.io for more information.
  */
-public class TextOutput {
+public class TextFormat {
 
     /**
-     * Uses System to print specified String, but limits the length
-     * of the line to be printed. If the String is longer than the specified
-     * columnWidth it will be printed on more than one line.
+     * Formats the String, limiting the length of the text body to the
+     * specified column width. If the String is longer than the specified
+     * column width it will be printed on more than one line.
      * This function assumes it is printing text and will not split a word
      * over a line unless the length of the word is longer than the column
      * width.
@@ -21,7 +21,7 @@ public class TextOutput {
      * @param s String to be printed
      * @param columnWidth max width of a line of text
      */
-    public final static void printWidth(String s, int columnWidth) {
+    public final static String formatWidth(String s, int columnWidth) {
         /* Remove linebreaks from s (it will be reformatted with linebreaks) */
         s = s.replace("\\n|\\r", "");
         s = s.replace("\t", "     ");
@@ -85,7 +85,7 @@ public class TextOutput {
         for(int i = 0; i < lines.size(); i++)
             result += lines.get(i);
 
-        System.out.print(result);
+        return result;
     }
 
     /**
