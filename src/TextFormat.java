@@ -155,5 +155,18 @@ public class TextFormat {
         }
         return result;
     }
-    // todo: leftJustify, rightJustify, documentation, parameter names
+    // todo: documentation, parameter names
+
+    public final static String rightJustify(String text, int columnWidth) {
+        String result = "";
+        // apply basic formatting
+        String width_formatted = formatWidth(text, columnWidth);
+        String[] lines = width_formatted.split("\\n");
+        for(int i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].trim();
+            int leading_space = (columnWidth - lines[i].length());
+            result += cloneString(" ", leading_space) + lines[i] + "\n";
+        }
+        return result;
+    }
 }
