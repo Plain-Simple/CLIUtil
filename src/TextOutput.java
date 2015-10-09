@@ -3,14 +3,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A java library offering various functions for use in CLI-based applications
- * Functions include input/output, formatting, String manipulation and parsing,
- * and trim functions.
- *
- * Contributor(s): Stefan Kussmaul, Plain+Simple 2015
+ * A java library for text output.
+ * Copyright(C) Plain Simple Apps 2015
+ * Licensed under GPL GNU Version 3 (see license.txt)
+ * See plain-simple.github.io for more information.
  */
 public class TextOutput {
-
 
     /**
      * Uses System to print specified String, but limits the length
@@ -19,11 +17,11 @@ public class TextOutput {
      * This function assumes it is printing text and will not split a word
      * over a line unless the length of the word is longer than the column
      * width.
-     * 
+     *
      * @param s String to be printed
      * @param columnWidth max width of a line of text
      */
-    public final static void printFrmt(String s, int columnWidth) {
+    public final static void printWidth(String s, int columnWidth) {
         /* Remove linebreaks from s (it will be reformatted with linebreaks) */
         s = s.replace("\\n|\\r", "");
         s = s.replace("\t", "     ");
