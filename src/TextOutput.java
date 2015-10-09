@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * Contributor(s): Stefan Kussmaul, Plain+Simple 2015
  */
-public class CLIUtil {
+public class TextOutput {
 
     /**
      * Reads in all user-inputted text and returns it as a single String.
