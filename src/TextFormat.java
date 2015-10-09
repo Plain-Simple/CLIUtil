@@ -143,4 +143,17 @@ public class TextFormat {
             result += toClone;
         return result;
     }
+
+    public final static String center(String text, int columnWidth) {
+        String result = "";
+        // apply basic formatting
+        String width_formatted = formatWidth(text, columnWidth);
+        String[] lines = width_formatted.split("\\n");
+        for(int i = 0; i < lines.length; i++) {
+            int leading_space = (columnWidth - lines[i].length()) / 2;
+            result += cloneString(" ", leading_space) + lines[i] + "\n";
+        }
+        return result;
+    }
+    // todo: leftJustify, rightJustify, documentation, parameter names
 }
